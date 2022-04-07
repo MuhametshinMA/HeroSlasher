@@ -5,6 +5,8 @@ import android.graphics.Color;
 import com.example.gear2d.CoreFW;
 import com.example.gear2d.SceneFW;
 import com.example.heroslasher.R;
+import com.example.heroslasher.classes.GameManager;
+import com.example.heroslasher.generator.GeneratorBackground;
 
 public class GameScene extends SceneFW {
 
@@ -12,10 +14,14 @@ public class GameScene extends SceneFW {
         READY, RUNNING, PAUSE, GAMEOVER
     }
     GameState gameState;
+    GeneratorBackground generatorBackground;
+    GameManager gameManager;
 
     public GameScene(CoreFW coreFW) {
         super(coreFW);
         gameState = GameState.READY;
+        generatorBackground = new GeneratorBackground(sceneWidth, sceneHeight);
+        gam
     }
 
     @Override
@@ -23,61 +29,60 @@ public class GameScene extends SceneFW {
         if (gameState == GameState.READY) {
             updateStateReady();
         }
-        if (gameState == GameState.READY) {
+        if (gameState == GameState.RUNNING) {
             updateStateRunning();
         }
-        if (gameState == GameState.READY) {
+        if (gameState == GameState.PAUSE) {
             updateStatePause();
         }
-        if (gameState == GameState.READY) {
+        if (gameState == GameState.GAMEOVER) {
             updateStateGameOver();
         }
     }
 
-    private void updateStateGameOver() {
-    }
-
-    private void updateStatePause() {
-    }
-
-    private void updateStateRunning() {
-    }
-
-    private void updateStateReady() {
-        coreFW.getTouchLiestener().getTouchUp(0, 0, )
-    }
-
     @Override
     public void drawing() {
-        graphicsFW.clearScene(Color.RED);
-        graphicsFW.drawText("Game Scene", 100, 100, Color.BLACK, 40, null);
         if (gameState == GameState.READY) {
             drawingStateReady();
         }
-        if (gameState == GameState.READY) {
+        if (gameState == GameState.RUNNING) {
             drawingStateRunning();
         }
-        if (gameState == GameState.READY) {
+        if (gameState == GameState.PAUSE) {
             drawingStatePause();
         }
-        if (gameState == GameState.READY) {
+        if (gameState == GameState.GAMEOVER) {
             drawingStateGameOver();
         }
     }
-
-    private void drawingStateGameOver() {
-    }
-
-    private void drawingStatePause() {
-    }
-
-    private void drawingStateRunning() {
+    private void updateStateReady() {
+        if (coreFW.getTouchLiestener().getTouchUp(0, 0, sceneWidth, sceneHeight)) {
+            gameState = GameState.RUNNING;
+        }
     }
 
     private void drawingStateReady() {
-        coreFW.getGraphics().clearScene(Color.BLACK);
-        coreFW.getGraphics().drawText(coreFW.getString(R.string.txt_gameScene_stateReady_ready),
-                100, 150, 60, Color.GREEN, null);
+        graphicsFW.clearScene(Color.YELLOW);
+        graphicsFW.drawText("Ready?"+sceneWidth+" "+sceneHeight, 20, 100, Color.GREEN, 60, null);
+        graphicsFW.drawRect(20,20, 100,100, Color.BLACK);
+    }
+    private void updateStateRunning() {
+
+    }
+
+    private void drawingStateRunning() {
+        graphicsFW.clearScene(Color.BLACK);
+        graphicsFW.drawText("Game scene", 100, 200, Color.RED, 60, null);
+        generatorBackground.drawing(graphicsFW);
+        generatorBackground.update();
+    }
+    private void updateStatePause() {
+    }
+    private void drawingStatePause() {
+    }
+    private void updateStateGameOver() {
+    }
+    private void drawingStateGameOver() {
     }
 
     @Override

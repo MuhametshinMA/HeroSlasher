@@ -20,18 +20,17 @@ public class MainMenuScene extends SceneFW {
 
         int x = (int)coreFW.getTouchLiestener().x;
         int y = (int)coreFW.getTouchLiestener().y;
-        coreFW.getGraphics().drawPixel((int)coreFW.getTouchLiestener().x, (int)coreFW.getTouchLiestener().y, Color.WHITE);
 
         String text = "X: "+x+"; Y: "+y;
         //coreFW.getGraphics().drawText(text, (int)coreFW.getTouchLiestener().x, (int)coreFW.getTouchLiestener().y, Color.WHITE, 30, null);
 
-        coreFW.getGraphics().drawRect(x, y, x + 100, y + 50, Color.GREEN);
-        coreFW.getGraphics().drawText(text, x, y, Color.WHITE, 30, null);
+        graphicsFW.drawRect(x, y, x + 100, y + 50, Color.GREEN);
+        graphicsFW.drawText(text, x, y, Color.WHITE, 30, null);
 
-        if (coreFW.getTouchLiestener().getTouchUp(20, 350, 150, 40)) {
+        graphicsFW.drawRect(20, 250, 100, 290, Color.BLUE);
+
+        if (coreFW.getTouchLiestener().getTouchUp(20, 250, 150, 40)) {
             coreFW.setScene(new GameScene(coreFW));
-            //coreFW.getGraphics().drawText(text, x, y, Color.RED, 30, null);
-            //coreFW.getGraphics().drawRect(x, y, x + 100, y + 50, Color.BLUE);
         }
 
 
@@ -39,12 +38,12 @@ public class MainMenuScene extends SceneFW {
 
     @Override
     public void drawing() {
-        coreFW.getGraphics().clearScene(Color.BLACK);
-        coreFW.getGraphics().drawText(coreFW.getString(R.string.txt_mainMenu_nameGame), 100, 100, Color.GREEN, 60, null);
-        coreFW.getGraphics().drawText(coreFW.getString(R.string.txt_mainMenu_newGame), 20, 300, Color.GREEN, 40, null);
-        coreFW.getGraphics().drawText(coreFW.getString(R.string.txt_mainMenu_settings), 20, 350, Color.GREEN, 40, null);
-        coreFW.getGraphics().drawText(coreFW.getString(R.string.txt_mainMenu_Score), 20, 400, Color.GREEN, 40, null);
-        coreFW.getGraphics().drawText(coreFW.getString(R.string.txt_mainMenu_exitGame), 20, 450, Color.GREEN, 40, null);
+        graphicsFW.clearScene(Color.BLACK);
+        graphicsFW.drawText(coreFW.getString(R.string.txt_mainMenu_nameGame), 100, 100, Color.GREEN, 60, null);
+        graphicsFW.drawText(coreFW.getString(R.string.txt_mainMenu_newGame), 20, 300, Color.GREEN, 40, null);
+        graphicsFW.drawText(coreFW.getString(R.string.txt_mainMenu_settings), 20, 350, Color.GREEN, 40, null);
+        graphicsFW.drawText(coreFW.getString(R.string.txt_mainMenu_Score), 20, 400, Color.GREEN, 40, null);
+        graphicsFW.drawText(coreFW.getString(R.string.txt_mainMenu_exitGame), 20, 450, Color.GREEN, 40, null);
     }
 
     @Override

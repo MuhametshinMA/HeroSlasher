@@ -35,7 +35,7 @@ public class CoreFW extends AppCompatActivity {
         sizeDisplay = new Point();
         display = getWindowManager().getDefaultDisplay();
         display.getSize(sizeDisplay);
-        frameBuffer = Bitmap.createBitmap((int)FRAME_BUFFER_WIDTH, (int)FRAME_BUFFER_WIDTH,Bitmap.Config.ARGB_8888);
+        frameBuffer = Bitmap.createBitmap((int)FRAME_BUFFER_WIDTH, (int)FRAME_BUFFER_HEIGHT,Bitmap.Config.ARGB_8888);
         sceneWidth = FRAME_BUFFER_WIDTH/sizeDisplay.x;
         sceneHeight = FRAME_BUFFER_HEIGHT/sizeDisplay.y;
 
