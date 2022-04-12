@@ -8,4 +8,8 @@
     <string name="txt_mainMenu_exitGame">Exit game</string>
     <!--GameScene-->
     <string name="txt_gameScene_stateReady_ready">Are you ready?</string>
+    <!--Header-->
+    <string name="txt_header_passedDistance">Passed distance: </string>
+    <string name="txt_header_currentSpeed">Speed: </string>
+    <string name="txt_header_currentShield">Shield: </string>
 </resources>

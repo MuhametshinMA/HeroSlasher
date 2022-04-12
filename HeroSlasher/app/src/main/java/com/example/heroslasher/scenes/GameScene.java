@@ -14,14 +14,12 @@ public class GameScene extends SceneFW {
         READY, RUNNING, PAUSE, GAMEOVER
     }
     GameState gameState;
-    GeneratorBackground generatorBackground;
     GameManager gameManager;
 
     public GameScene(CoreFW coreFW) {
         super(coreFW);
         gameState = GameState.READY;
-        generatorBackground = new GeneratorBackground(sceneWidth, sceneHeight);
-        gam
+        gameManager = new GameManager(coreFW, sceneWidth, sceneHeight);
     }
 
     @Override
@@ -67,14 +65,14 @@ public class GameScene extends SceneFW {
         graphicsFW.drawRect(20,20, 100,100, Color.BLACK);
     }
     private void updateStateRunning() {
-
+        gameManager.update();
     }
 
     private void drawingStateRunning() {
         graphicsFW.clearScene(Color.BLACK);
         graphicsFW.drawText("Game scene", 100, 200, Color.RED, 60, null);
-        generatorBackground.drawing(graphicsFW);
-        generatorBackground.update();
+
+        gameManager.drawing(coreFW,graphicsFW);
     }
     private void updateStatePause() {
     }

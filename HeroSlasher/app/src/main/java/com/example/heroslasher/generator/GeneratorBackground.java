@@ -18,9 +18,9 @@ public class GeneratorBackground {
             starArrayList.add(star);
         }
     }
-    public void update() {
+    public void update(double speed) {
         for (int i = 0; i < starArrayList.size(); i++) {
-            starArrayList.get(i).update();
+            starArrayList.get(i).update(speed);
         }
     }
 
@@ -29,5 +29,4 @@ public class GeneratorBackground {
             graphicsFW.drawPixel(starArrayList.get(i).getX(),starArrayList.get(i).getY(), Color.WHITE);
         }
     }
-
 }

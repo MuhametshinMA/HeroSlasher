@@ -85,7 +85,21 @@ public class GraphicsFW {
     }
 
     public Bitmap newSprite(Bitmap textureAtlas, int x, int y, int widthSprite, int heightSprite) {
-        //Bitmap newSprite = Bitmap.createBitmap(textureAtlas, x, y, widthSprite, heightSprite);
-        return Bitmap.createBitmap(textureAtlas, x, y, widthSprite, heightSprite);
+        System.out.println("Bitmap at X: " + x * textureAtlas.getWidth()/widthSprite
+                + " Y: " + y * textureAtlas.getHeight()/heightSprite
+                + " Width: " + textureAtlas.getWidth()/widthSprite
+                + " Height: " + textureAtlas.getHeight()/heightSprite);
+        Bitmap newSprite;
+        if (x == 0) {
+            newSprite = Bitmap.createBitmap(textureAtlas,
+                    x * textureAtlas.getWidth()/widthSprite, y * textureAtlas.getHeight()/heightSprite,
+                    textureAtlas.getWidth()/widthSprite, textureAtlas.getHeight()/heightSprite);
+        } else {
+            newSprite = Bitmap.createBitmap(textureAtlas,
+                    x * textureAtlas.getWidth()/widthSprite -1, y * textureAtlas.getHeight()/heightSprite,
+                    textureAtlas.getWidth()/widthSprite, textureAtlas.getHeight()/heightSprite);
+        }
+
+        return newSprite;
     }
 }

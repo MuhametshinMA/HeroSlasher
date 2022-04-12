@@ -22,7 +22,6 @@ public class MainMenuScene extends SceneFW {
         int y = (int)coreFW.getTouchLiestener().y;
 
         String text = "X: "+x+"; Y: "+y;
-        //coreFW.getGraphics().drawText(text, (int)coreFW.getTouchLiestener().x, (int)coreFW.getTouchLiestener().y, Color.WHITE, 30, null);
 
         graphicsFW.drawRect(x, y, x + 100, y + 50, Color.GREEN);
         graphicsFW.drawText(text, x, y, Color.WHITE, 30, null);
@@ -32,8 +31,6 @@ public class MainMenuScene extends SceneFW {
         if (coreFW.getTouchLiestener().getTouchUp(20, 250, 150, 40)) {
             coreFW.setScene(new GameScene(coreFW));
         }
-
-
     }
 
     @Override

@@ -9,4 +9,8 @@ public class UtilRandomFW {
         casualNumber = random.nextInt(number);
         return casualNumber;
     }
+    public static int getGap(int minNum, int maxNum) {
+        int gap = (int)(Math.random() * (++maxNum) + minNum);
+        return gap;
+    }
 }

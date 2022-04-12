@@ -9,12 +9,13 @@ public class Star extends ObjectsFW {
         this.maxScreenY = sceneHeight;
         this.minScreenX = 0;
         this.minScreenY = 0;
-        this.speed = UtilRandomFW.getCasualNumber(43);
+        this.speed = UtilRandomFW.getCasualNumber(23);
         this.x = UtilRandomFW.getCasualNumber(maxScreenX);
         this.y = UtilRandomFW.getCasualNumber(maxScreenY);
     }
-    public void update() {
+    public void update(double speed) {
         x -= speed;
+        x -= this.speed;
         if (x < 0) {
             x = maxScreenX;
         }

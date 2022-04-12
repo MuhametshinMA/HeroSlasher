@@ -1,39 +1,88 @@
 package com.example.heroslasher.objects;
 
+import com.example.gear2d.CoreFW;
 import com.example.gear2d.GraphicsFW;
 import com.example.gear2d.ObjectsFW;
-import com.example.gear2d.utilites.UtilResource;
-import com.example.heroslasher.classes.AnimationGame;
+import com.example.heroslasher.utilites.UtilResource;
+import com.example.gear2d.AnimationFW;
 
 public class MainPlayer extends ObjectsFW {
     final int GRAVITY = -3;
-    final int MAX_SPEED = 15;
+    final int MAX_SPEED = 35;
     final int MIN_SPEED = 1;
-    AnimationGame animationSpriteMainPlayer;
+    AnimationFW animationSpriteMainPlayer;
+    AnimationFW getAnimationSpriteMainPlayerBoost;
 
-    public MainPlayer(int maxScreenX, int maxScreenY) {
-        x = 20;
-        y = 200;
-        speed = 1;
+    CoreFW coreFW;
+
+    boolean boosting;
+    private int shield;
+
+    public MainPlayer(CoreFW coreFW, int maxScreenX, int maxScreenY, int minScreenY) {
+        x = 200;
+        y = 100;
+        speed = 3;
+        shield = 3;
+        boosting = false;
+        this.coreFW = coreFW;
         this.maxScreenX = maxScreenX;
         this.maxScreenY = maxScreenY - UtilResource.spritePlayer.get(0).getHeight();
-        animationSpriteMainPlayer = new AnimationGame(speed,
-                UtilResource.spritePlayer.get(0),
-                UtilResource.spritePlayer.get(1),
-                UtilResource.spritePlayer.get(2),
-                UtilResource.spritePlayer.get(3));
+        this.minScreenY = minScreenY;
+        animationSpriteMainPlayer = new AnimationFW(speed, UtilResource.spritePlayer);
+        getAnimationSpriteMainPlayerBoost = new AnimationFW(speed,
+                UtilResource.spritePlayerBoost);
     }
     public void update() {
+        if (coreFW.getTouchLiestener().getTouchDown(0,0,maxScreenX,maxScreenY)) {
+            startBoosting();
+        }
+        if (coreFW.getTouchLiestener().getTouchUp(0,0,maxScreenX,maxScreenY)) {
+            stopBoosting();
+        }
+        if (boosting) {
+            speed += 1;
+        } else {
+            speed -= 1;
+        }
+        if (speed > MAX_SPEED) {
+            speed = MAX_SPEED;
+        }
+        if (speed < MIN_SPEED) {
+            speed = MIN_SPEED;
+        }
         y -= speed + GRAVITY;
         if (y < minScreenY) {
             y = minScreenY;
         }
-        if (y < maxScreenY) {
+        if (y > maxScreenY) {
             y = maxScreenY;
         }
-        animationSpriteMainPlayer.runAnimation();
+        if (boosting) {
+            getAnimationSpriteMainPlayerBoost.runAnimation();
+        } else {
+            animationSpriteMainPlayer.runAnimation();
+        }
     }
+
+    private void stopBoosting() {
+        boosting = false;
+    }
+
+    private void startBoosting() {
+        boosting = true;
+    }
+
     public void drawing(GraphicsFW graphicsFW) {
-        animationSpriteMainPlayer.drawingAnimation(graphicsFW, x, y);
+        if (boosting) {
+            getAnimationSpriteMainPlayerBoost.drawingAnimation(graphicsFW, x, y);
+        } else {
+            animationSpriteMainPlayer.drawingAnimation(graphicsFW, x, y);
+        }
+    }
+    public double getSpeed() {
+        return speed;
+    }
+    public int getShield() {
+        return shield;
     }
 }
