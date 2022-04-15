@@ -6,6 +6,16 @@ public abstract class SceneFW {
     public int sceneHeight;
     public GraphicsFW graphicsFW;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    private String name;
+
     public SceneFW(CoreFW coreFW) {
         this.coreFW = coreFW;
         sceneHeight = coreFW.getGraphics().getHeightFrameBuffer();

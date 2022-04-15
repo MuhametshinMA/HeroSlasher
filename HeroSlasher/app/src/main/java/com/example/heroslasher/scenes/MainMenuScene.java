@@ -18,17 +18,16 @@ public class MainMenuScene extends SceneFW {
     @Override
     public void update() {
 
-        int x = (int)coreFW.getTouchLiestener().x;
-        int y = (int)coreFW.getTouchLiestener().y;
+        int x = (int)coreFW.getTouchListener().x;
+        int y = (int)coreFW.getTouchListener().y;
 
         String text = "X: "+x+"; Y: "+y;
 
         graphicsFW.drawRect(x, y, x + 100, y + 50, Color.GREEN);
         graphicsFW.drawText(text, x, y, Color.WHITE, 30, null);
-
         graphicsFW.drawRect(20, 250, 100, 290, Color.BLUE);
 
-        if (coreFW.getTouchLiestener().getTouchUp(20, 250, 150, 40)) {
+        if (coreFW.getTouchListener().getTouchUp(20, 250, 150, 40)) {
             coreFW.setScene(new GameScene(coreFW));
         }
     }

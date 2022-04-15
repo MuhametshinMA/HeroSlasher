@@ -1,10 +1,13 @@
 package com.example.gear2d;
 
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.view.MotionEvent;
 import android.view.View;
 
-public class TouchLiestenerFW implements View.OnTouchListener {
+public class TouchListener implements View.OnTouchListener {
 
     public float x;
     public float y;
@@ -18,7 +21,7 @@ public class TouchLiestenerFW implements View.OnTouchListener {
     float sceneWidth;
     float sceneHeight;
 
-    public TouchLiestenerFW(View view, float sceneWidth, float sceneHeight) {
+    public TouchListener(View view, float sceneWidth, float sceneHeight) {
         view.setOnTouchListener(this);
         this.sceneWidth = sceneWidth;
         this.sceneHeight = sceneHeight;
@@ -41,31 +44,46 @@ public class TouchLiestenerFW implements View.OnTouchListener {
                     touchY = motionEvent.getY()/**sceneHeight*/;
                     isTouchUp = false;
                     isTouchDown = true;
+                    System.out.println("TOUCH DOWN");
                     break;
                 case MotionEvent.ACTION_UP:
                     touchX = motionEvent.getX()/**sceneWidth*/;
                     touchY = motionEvent.getY()/**sceneHeight*/;
                     isTouchUp = true;
                     isTouchDown = false;
+                    System.out.println("TOUCH UP");
                     break;
             }
         }
         return true;
     }
 
-    public boolean getTouchUp(int x, int y, int touchWidth, int touchHeight) {
-        if (isTouchUp) {
-            if ((touchX >= x) && (touchX <= x + touchWidth - 1) && (touchY >= y) && (touchY <= y + touchHeight - 1)) {
-                isTouchUp = false;
+    public boolean getTouchDown(int x, int y, int touchWidth, int touchHeight) {
+
+        if (isTouchDown) {
+            /*System.out.println("in TouchListener.getTouchDown");
+            System.out.println("TouchX: " + touchX + " TouchY: " + touchY);
+            System.out.println("X: " + x + " Y: " + y + " width: "
+                    + touchWidth + " height: " + touchHeight);*/
+            if ((touchX > x) & (touchX < (x + touchWidth - 1)) & (touchY > y) & (touchY < (y + touchHeight - 1))) {
+                isTouchDown = false;
+                System.out.println("Was touchedDown");
                 return true;
             }
         }
         return false;
     }
-    public boolean getTouchDown(int x, int y, int touchWidth, int touchHeight) {
-        if (isTouchDown) {
+    public boolean getTouchUp(int x, int y, int touchWidth, int touchHeight) {
+        /*StackTraceElement[] methods = Thread.currentThread().getStackTrace();
+        for(StackTraceElement info: methods)
+            System.out.println(info);
+        System.out.println("in TouchListener.getTouchUp");
+        System.out.println("TouchX: " + touchX + " TouchY: " + touchY);
+        System.out.println("X: " + x + " Y: " + y + " width: " + x + " height: " + y);*/
+        if (isTouchUp) {
             if ((touchX >= x) && (touchX <= x + touchWidth - 1) && (touchY >= y) && (touchY <= y + touchHeight - 1)) {
-                isTouchDown = false;
+                isTouchUp = false;
+                System.out.println("Was touchedUp");
                 return true;
             }
         }

@@ -5,9 +5,6 @@ import android.graphics.Bitmap;
 import java.util.ArrayList;
 
 public class UtilResource {
-    public static Bitmap textureAtlas;
-    public static Bitmap textureEnemy;
-    public static ArrayList<Bitmap> spritePlayer;
-    public static ArrayList<Bitmap> spritePlayerBoost;
-    public static ArrayList<Bitmap> spriteEnemy;
+    public static Bitmap texture;
+    public static ArrayList<Bitmap> sprites;
 }

@@ -16,7 +16,7 @@ public class CoreFW extends AppCompatActivity {
 
     private LoopFW loopFW;
     private GraphicsFW graphicsFW;
-    private TouchLiestenerFW touchLiestenerFW;
+    private TouchListener touchListener;
 
     private Display display;
     private Point sizeDisplay;
@@ -41,7 +41,7 @@ public class CoreFW extends AppCompatActivity {
 
         loopFW = new LoopFW(this, frameBuffer);
         graphicsFW = new GraphicsFW(getAssets(),frameBuffer);
-        touchLiestenerFW = new TouchLiestenerFW(loopFW, sceneWidth, sceneHeight);
+        touchListener = new TouchListener(loopFW, sceneWidth, sceneHeight);
 
         sceneFW = getStartScene();
 
@@ -70,8 +70,8 @@ public class CoreFW extends AppCompatActivity {
     public GraphicsFW getGraphics() {
         return graphicsFW;
     }
-    public TouchLiestenerFW getTouchLiestener() {
-        return touchLiestenerFW;
+    public TouchListener getTouchListener() {
+        return touchListener;
     }
     public void setScene(SceneFW sceneFW) {
         if (sceneFW == null) {

@@ -20,6 +20,7 @@ public class GameScene extends SceneFW {
         super(coreFW);
         gameState = GameState.READY;
         gameManager = new GameManager(coreFW, sceneWidth, sceneHeight);
+        setName("Game scene");
     }
 
     @Override
@@ -54,7 +55,7 @@ public class GameScene extends SceneFW {
         }
     }
     private void updateStateReady() {
-        if (coreFW.getTouchLiestener().getTouchUp(0, 0, sceneWidth, sceneHeight)) {
+        if (coreFW.getTouchListener().getTouchUp(0, 0, sceneWidth, sceneHeight)) {
             gameState = GameState.RUNNING;
         }
     }

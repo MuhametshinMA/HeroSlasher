@@ -84,20 +84,22 @@ public class GraphicsFW {
         return textureGame;
     }
 
-    public Bitmap newSprite(Bitmap textureAtlas, int x, int y, int widthSprite, int heightSprite) {
-        System.out.println("Bitmap at X: " + x * textureAtlas.getWidth()/widthSprite
-                + " Y: " + y * textureAtlas.getHeight()/heightSprite
-                + " Width: " + textureAtlas.getWidth()/widthSprite
-                + " Height: " + textureAtlas.getHeight()/heightSprite);
+    public Bitmap newSprite(Bitmap texture, int x, int y, int widthSprite, int heightSprite) {
+        /*System.out.println("Bitmap at X: " + x  + " Y: " + y +
+                " spriteWidth: " + x * texture.getWidth()/widthSprite +
+                " spriteHeight: " + y * texture.getHeight()/heightSprite
+                + " Texture width: " + texture.getWidth()
+                + " Texture height: " + texture.getHeight());*/
+
         Bitmap newSprite;
         if (x == 0) {
-            newSprite = Bitmap.createBitmap(textureAtlas,
-                    x * textureAtlas.getWidth()/widthSprite, y * textureAtlas.getHeight()/heightSprite,
-                    textureAtlas.getWidth()/widthSprite, textureAtlas.getHeight()/heightSprite);
+            newSprite = Bitmap.createBitmap(texture,
+                    x * texture.getWidth()/widthSprite, y * texture.getHeight()/heightSprite,
+                    texture.getWidth()/widthSprite, texture.getHeight()/heightSprite);
         } else {
-            newSprite = Bitmap.createBitmap(textureAtlas,
-                    x * textureAtlas.getWidth()/widthSprite -1, y * textureAtlas.getHeight()/heightSprite,
-                    textureAtlas.getWidth()/widthSprite, textureAtlas.getHeight()/heightSprite);
+            newSprite = Bitmap.createBitmap(texture,
+                    x * texture.getWidth()/widthSprite -1, y * texture.getHeight()/heightSprite,
+                    texture.getWidth()/widthSprite, texture.getHeight()/heightSprite);
         }
 
         return newSprite;
