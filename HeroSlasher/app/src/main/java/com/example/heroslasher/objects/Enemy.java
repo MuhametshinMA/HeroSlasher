@@ -7,6 +7,7 @@ import com.example.gear2d.GraphicsFW;
 import com.example.gear2d.ObjectsFW;
 import com.example.gear2d.utilites.UtilRandomFW;
 import com.example.gear2d.LoaderAssets;
+import com.example.gear2d.utilites.UtilTimerFW;
 
 public class Enemy extends ObjectsFW {
 
@@ -17,19 +18,22 @@ public class Enemy extends ObjectsFW {
 
     private static int LIVE = 0;
     private static int DEAD = 1;
+    public boolean isDead;
+    GraphicsFW graphicsFW;
 
     AnimationFW animationEnemy;
     public Enemy(GraphicsFW graphicsFW,
                  int sceneWidth, int sceneHeight, int minScreenY, short enemyType) {
 
         condition = LIVE;
+        this.graphicsFW = graphicsFW;
         switch (enemyType) {
             case 1:
                 speed = UtilRandomFW.getGap(2, 5);
                 loaderAssets = new LoaderAssets(graphicsFW,"enemy1.png",
                         20, 2, condition);
-                if (graphicsFW == null) {System.out.println("in Enemy graphics: null");}
-                else {System.out.println("in Enemy graphics: NOT null");}
+                //if (graphicsFW == null) {System.out.println("in Enemy graphics: null");}
+                //else {System.out.println("in Enemy graphics: NOT null");}
                 animationEnemy = new AnimationFW(speed, MAX_SPEED, loaderAssets);
                 break;
             case 2:
@@ -43,7 +47,8 @@ public class Enemy extends ObjectsFW {
         radius = loaderAssets.sprites.get(0).getHeight()/4;
         this.x = maxScreenX;
         this.y = UtilRandomFW.getCasualNumber(maxScreenY);
-        System.out.println("in Enemy: created");
+        isDead = false;
+
     }
     public void update(double speedPlayer) {
         animationEnemy.runAnimation();
@@ -57,7 +62,18 @@ public class Enemy extends ObjectsFW {
                 loaderAssets.sprites.get(0).getWidth(),
                 loaderAssets.sprites.get(0).getHeight());
     }
+
+    public void isHitPlayer() {
+        setCondition(DEAD);
+        isDead = true;
+    }
+
     public void drawing(GraphicsFW graphicsFW) {
         animationEnemy.drawingAnimation(graphicsFW, x, y);
+    }
+    private void setCondition(int condition) {
+        this.condition = condition;
+        loaderAssets.loadSprite(graphicsFW,20, 2, condition);
+        animationEnemy.setSpeedAnimation(speed);
     }
 }

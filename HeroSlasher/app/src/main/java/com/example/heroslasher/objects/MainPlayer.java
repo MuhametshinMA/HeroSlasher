@@ -8,6 +8,7 @@ import com.example.gear2d.ObjectsFW;
 import com.example.gear2d.LoaderAssets;
 import com.example.gear2d.AnimationFW;
 import com.example.gear2d.utilites.UtilTimerFW;
+import com.example.heroslasher.classes.GameManager;
 
 public class MainPlayer extends ObjectsFW {
     final int GRAVITY = -3;
@@ -18,7 +19,8 @@ public class MainPlayer extends ObjectsFW {
 
     CoreFW coreFW;
     LoaderAssets loaderAssets;
-    UtilTimerFW onShieldHit;
+    UtilTimerFW timerOnShieldHit;
+    UtilTimerFW timerOnDead;
 
     private int shield;
     protected int condition;
@@ -40,7 +42,9 @@ public class MainPlayer extends ObjectsFW {
         y = 100;
         speed = 3;
         shield = 3;
-        onShieldHit = new UtilTimerFW();
+        timerOnShieldHit = new UtilTimerFW();
+        timerOnDead = new UtilTimerFW();
+
 
         radius = loaderAssets.sprites.get(0).getHeight()/4;
 
@@ -53,7 +57,23 @@ public class MainPlayer extends ObjectsFW {
         animationMainPlayer.runAnimation();
         isBoost();
         changeShieldAnim();
+        gravity();
+        isDead();
+        hitBox = new Rect(x, y,
+                loaderAssets.sprites.get(0).getWidth(),
+                loaderAssets.sprites.get(0).getHeight());
+    }
 
+    private void isDead() {
+        if (condition == DEAD) {
+            if (timerOnDead.timerDelay(3)) {
+                System.out.println("in MainPlayer isDead: game over true");
+                GameManager.gameOver = true;
+            }
+        }
+    }
+
+    private void gravity() {
         y -= speed + GRAVITY;
         if (y < minScreenY) {
             y = minScreenY;
@@ -61,14 +81,10 @@ public class MainPlayer extends ObjectsFW {
         if (y > maxScreenY) {
             y = maxScreenY;
         }
-
-        hitBox = new Rect(x, y,
-                loaderAssets.sprites.get(0).getWidth(),
-                loaderAssets.sprites.get(0).getHeight());
     }
 
     private void changeShieldAnim() {
-        if (onShieldHit.timerDelay(1)) {
+        if (timerOnShieldHit.timerDelay(1)) {
             if (condition == NO_BOOSTED_HITED) {
                 setCondition(NO_BOOSTED);
             }
@@ -79,10 +95,9 @@ public class MainPlayer extends ObjectsFW {
     }
 
     private void setCondition(int condition) {
-
-        this.condition = condition;
-        loaderAssets.loadSprite(coreFW.getGraphics(),3, 5, condition);
-        animationMainPlayer.setSpeedAnimation(speed);
+            this.condition = condition;
+            loaderAssets.loadSprite(coreFW.getGraphics(),3, 5, condition);
+            animationMainPlayer.setSpeedAnimation(speed);
     }
     public void drawing(GraphicsFW graphicsFW) {
         animationMainPlayer.drawingAnimation(graphicsFW, x, y);
@@ -96,43 +111,51 @@ public class MainPlayer extends ObjectsFW {
 
     public void hitEnemy() {
         shield--;
+        if (shield < 0) {
+            setCondition(DEAD);
+            timerOnDead.startTimer();
+
+                System.out.println("in MainPlayer hitEnemy: timerOnDead.startTimer() done");
+
+        }
         if ((condition == BOOSTED) || (condition == BOOSTED_HITED)) {
             setCondition(BOOSTED_HITED);
         }
         if ((condition == NO_BOOSTED) || (condition == NO_BOOSTED_HITED)) {
             setCondition(NO_BOOSTED_HITED);
         }
-        onShieldHit.startTimer();
+        timerOnShieldHit.startTimer();
     }
     public void isBoost() {
-        if (coreFW.getTouchListener().getTouchDown(0,0,
-                coreFW.getCurrentScene().sceneWidth,
-                coreFW.getCurrentScene().sceneHeight)) {
-            setCondition(BOOSTED);
-            System.out.println("Boosted");
-        }
+        if (condition != DEAD) {
+            if (coreFW.getTouchListener().getTouchDown(0, 0,
+                    coreFW.getCurrentScene().sceneWidth,
+                    coreFW.getCurrentScene().sceneHeight)) {
+                setCondition(BOOSTED);
+                System.out.println("Boosted");
+            }
 
-        if (coreFW.getTouchListener().getTouchUp(0,0,
-                coreFW.getCurrentScene().sceneWidth,
-                coreFW.getCurrentScene().sceneHeight)) {
-            setCondition(NO_BOOSTED);
-            System.out.println("N#O Boosted");
-        }
-        if ((condition == BOOSTED) || (condition == BOOSTED_HITED)) {
-            speed += 1;
-            animationMainPlayer.setSpeedAnimation(speed);
-        } else {
-            speed -= 1;
-            animationMainPlayer.setSpeedAnimation(speed);
-        }
-
-        if (speed > MAX_SPEED) {
-            speed = MAX_SPEED;
-            animationMainPlayer.setSpeedAnimation(speed);
-        }
-        if (speed < MIN_SPEED) {
-            speed = MIN_SPEED;
-            animationMainPlayer.setSpeedAnimation(speed);
+            if (coreFW.getTouchListener().getTouchUp(0, 0,
+                    coreFW.getCurrentScene().sceneWidth,
+                    coreFW.getCurrentScene().sceneHeight)) {
+                setCondition(NO_BOOSTED);
+                System.out.println("N#O Boosted");
+            }
+            if ((condition == BOOSTED) || (condition == BOOSTED_HITED)) {
+                speed += 1;
+                animationMainPlayer.setSpeedAnimation(speed);
+            } else {
+                speed -= 1;
+                animationMainPlayer.setSpeedAnimation(speed);
+            }
+            if (speed > MAX_SPEED) {
+                speed = MAX_SPEED;
+                animationMainPlayer.setSpeedAnimation(speed);
+            }
+            if (speed < MIN_SPEED) {
+                speed = MIN_SPEED;
+                animationMainPlayer.setSpeedAnimation(speed);
+            }
         }
     }
 }

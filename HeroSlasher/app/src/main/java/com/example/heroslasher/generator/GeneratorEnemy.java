@@ -2,6 +2,7 @@ package com.example.heroslasher.generator;
 
 import com.example.gear2d.CoreFW;
 import com.example.gear2d.GraphicsFW;
+import com.example.gear2d.utilites.UtilTimerFW;
 import com.example.heroslasher.objects.Enemy;
 
 import java.util.ArrayList;
@@ -13,6 +14,7 @@ public class GeneratorEnemy {
     private int minScreenX;
     private int amountEnemy;
     private short type;
+    UtilTimerFW timerOnDead;
 
     public static ArrayList<Enemy> enemyArrayList;
     GraphicsFW graphicsFW;
@@ -28,9 +30,11 @@ public class GeneratorEnemy {
         this.amountEnemy = amountEnemy;
         this.type = type;
         enemyArrayList = new ArrayList<>();
+        timerOnDead = new UtilTimerFW();
     }
     public void update(double speedPlayer) {
         addEnemy();
+        isDead();
         for (int i = 0; i < enemyArrayList.size(); i++) {
             enemyArrayList.get(i).update(speedPlayer);
         }
@@ -51,9 +55,17 @@ public class GeneratorEnemy {
         }
     }
 
-    public void hitPlayer(Enemy enemy) {
+    public void hitPlayer(int enemy) {
+        enemyArrayList.get(enemy).isHitPlayer();
+        timerOnDead.startTimer();
+    }
+    private void isDead() {
         for (int i = 0; i < enemyArrayList.size(); i++) {
-            enemyArrayList.remove(enemy);
+            if (enemyArrayList.get(i).isDead) {
+                if (timerOnDead.timerDelay(2)) {
+                    enemyArrayList.remove(i);
+                }
+            }
         }
     }
 }

@@ -40,15 +40,15 @@ public class TouchListener implements View.OnTouchListener {
 
             switch (motionEvent.getAction()) {
                 case MotionEvent.ACTION_DOWN:
-                    touchX = motionEvent.getX()/**sceneWidth*/;
-                    touchY = motionEvent.getY()/**sceneHeight*/;
+                    touchX = motionEvent.getX();
+                    touchY = motionEvent.getY();
                     isTouchUp = false;
                     isTouchDown = true;
                     System.out.println("TOUCH DOWN");
                     break;
                 case MotionEvent.ACTION_UP:
-                    touchX = motionEvent.getX()/**sceneWidth*/;
-                    touchY = motionEvent.getY()/**sceneHeight*/;
+                    touchX = motionEvent.getX();
+                    touchY = motionEvent.getY();
                     isTouchUp = true;
                     isTouchDown = false;
                     System.out.println("TOUCH UP");
@@ -59,13 +59,11 @@ public class TouchListener implements View.OnTouchListener {
     }
 
     public boolean getTouchDown(int x, int y, int touchWidth, int touchHeight) {
-
         if (isTouchDown) {
-            /*System.out.println("in TouchListener.getTouchDown");
             System.out.println("TouchX: " + touchX + " TouchY: " + touchY);
             System.out.println("X: " + x + " Y: " + y + " width: "
-                    + touchWidth + " height: " + touchHeight);*/
-            if ((touchX > x) & (touchX < (x + touchWidth - 1)) & (touchY > y) & (touchY < (y + touchHeight - 1))) {
+                    + touchWidth + " height: " + touchHeight);
+            if ((touchX > x) && (touchX < (x + touchWidth - 1)) && (touchY > y) && (touchY < (y + (touchHeight - 1)))) {
                 isTouchDown = false;
                 System.out.println("Was touchedDown");
                 return true;
@@ -74,14 +72,8 @@ public class TouchListener implements View.OnTouchListener {
         return false;
     }
     public boolean getTouchUp(int x, int y, int touchWidth, int touchHeight) {
-        /*StackTraceElement[] methods = Thread.currentThread().getStackTrace();
-        for(StackTraceElement info: methods)
-            System.out.println(info);
-        System.out.println("in TouchListener.getTouchUp");
-        System.out.println("TouchX: " + touchX + " TouchY: " + touchY);
-        System.out.println("X: " + x + " Y: " + y + " width: " + x + " height: " + y);*/
         if (isTouchUp) {
-            if ((touchX >= x) && (touchX <= x + touchWidth - 1) && (touchY >= y) && (touchY <= y + touchHeight - 1)) {
+            if ((touchX >= x) && (touchX <= x + touchWidth - 1) && (touchY >= y) && (touchY <= y + (touchHeight - 1))) {
                 isTouchUp = false;
                 System.out.println("Was touchedUp");
                 return true;

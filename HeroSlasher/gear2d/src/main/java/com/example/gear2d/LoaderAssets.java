@@ -27,9 +27,9 @@ public class LoaderAssets {
     }
     private void loadTexture(GraphicsFW graphicsFW, String fileName) {
         texture = graphicsFW.newTexture(fileName);
-        System.out.println(fileName);
+        /*System.out.println(fileName);
         if (texture == null) {
             System.out.println("texture in LoaderAssets Null");
-        } else System.out.println("texture in LoaderAssets not Null");
+        } else System.out.println("texture in LoaderAssets not Null");*/
     }
 }

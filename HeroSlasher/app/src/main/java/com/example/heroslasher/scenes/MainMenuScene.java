@@ -25,9 +25,9 @@ public class MainMenuScene extends SceneFW {
 
         graphicsFW.drawRect(x, y, x + 100, y + 50, Color.GREEN);
         graphicsFW.drawText(text, x, y, Color.WHITE, 30, null);
-        graphicsFW.drawRect(20, 250, 100, 290, Color.BLUE);
+        //graphicsFW.drawRect(20, 300, 170, 340, Color.GREEN);
 
-        if (coreFW.getTouchListener().getTouchUp(20, 250, 150, 40)) {
+        if (coreFW.getTouchListener().getTouchUp(20, 260, 150, 40)) {
             coreFW.setScene(new GameScene(coreFW));
         }
     }

@@ -12,6 +12,7 @@ public class UtilTimerFW {
     public boolean timerDelay(double second) {
         nowTime = System.nanoTime()/SECOND;
         elapsedTime = nowTime - startTime;
+
         if (elapsedTime > second) {
             return true;
         }

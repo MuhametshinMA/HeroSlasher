@@ -7,6 +7,7 @@ import com.example.gear2d.SceneFW;
 import com.example.heroslasher.R;
 import com.example.heroslasher.classes.GameManager;
 import com.example.heroslasher.generator.GeneratorBackground;
+import com.example.heroslasher.objects.Header;
 
 public class GameScene extends SceneFW {
 
@@ -67,6 +68,9 @@ public class GameScene extends SceneFW {
     }
     private void updateStateRunning() {
         gameManager.update();
+        if (GameManager.gameOver) {
+            gameState = GameState.GAMEOVER;
+        }
     }
 
     private void drawingStateRunning() {
@@ -80,8 +84,31 @@ public class GameScene extends SceneFW {
     private void drawingStatePause() {
     }
     private void updateStateGameOver() {
+        int x = (int)coreFW.getTouchListener().x;
+        int y = (int)coreFW.getTouchListener().y;
+
+        String text = "X: "+x+"; Y: "+y;
+
+        graphicsFW.drawRect(x, y, x + 50, y + 50, Color.GREEN);
+        graphicsFW.drawText(text, x, y, Color.WHITE, 30, null);
+
+
+        if (coreFW.getTouchListener().getTouchUp(50, 250, 150, 50)) {
+            coreFW.setScene(new GameScene(coreFW));
+        }
+        if (coreFW.getTouchListener().getTouchUp(50, 300, 150, 50)) {
+            coreFW.setScene(new MainMenuScene(coreFW));
+        }
     }
     private void drawingStateGameOver() {
+        graphicsFW.clearScene(Color.BLACK);
+        graphicsFW.drawText("Game over", 300, 300, Color.RED, 60, null);
+        graphicsFW.drawText("Player flew: " + Header.passedDistance,
+                300, 500, Color.RED, 30, null);
+        graphicsFW.drawText(coreFW.getString(R.string.txt_mainMenu_newGame),
+                50, 300, Color.RED, 50, null);
+        graphicsFW.drawText(coreFW.getString(R.string.txt_mainMenu_exitGame),
+                50, 350, Color.RED, 50, null);
     }
 
     @Override

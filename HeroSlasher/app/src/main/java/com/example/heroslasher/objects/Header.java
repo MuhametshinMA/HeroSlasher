@@ -7,7 +7,7 @@ import com.example.gear2d.GraphicsFW;
 import com.example.heroslasher.R;
 
 public class Header {
-    private double passedDistance;
+    public static double passedDistance;
     private double currentSpeedPlayer;
     private int currentShieldPlayer;
 
