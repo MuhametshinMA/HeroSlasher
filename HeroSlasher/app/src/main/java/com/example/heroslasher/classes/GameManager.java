@@ -3,17 +3,13 @@ package com.example.heroslasher.classes;
 import com.example.gear2d.CollisionDetectFW;
 import com.example.gear2d.CoreFW;
 import com.example.gear2d.GraphicsFW;
+import com.example.gear2d.LoaderAssetSound;
 import com.example.heroslasher.generator.GeneratorBackground;
 import com.example.heroslasher.generator.GeneratorEnemy;
-import com.example.heroslasher.objects.Enemy;
 import com.example.heroslasher.objects.Header;
 import com.example.heroslasher.objects.MainPlayer;
 
-public class GameManager {
-    private int maxScreenY;
-    private int maxScreenX;
-    private int minScreenY;
-    private int minScreenX;
+public class GameManager{
 
     public static boolean gameOver;
 
@@ -21,17 +17,16 @@ public class GameManager {
     GeneratorBackground generatorBackground;
     GeneratorEnemy generatorEnemy;
     Header header;
+    LoaderAssetSound boomSound;
 
     public GameManager(CoreFW coreFW, int sceneWidth, int sceneHeight) {
         header = new Header(coreFW);
         gameOver = false;
-        this.maxScreenX = sceneWidth;
-        this.maxScreenY = sceneHeight;
-        minScreenX = 0;
-        minScreenY = header.getHEIGHT_HEADER();
-        mainPlayer = new MainPlayer(coreFW, maxScreenX, maxScreenY, minScreenY);
+        int mMinScreenY = header.getHEIGHT_HEADER();
+        mainPlayer = new MainPlayer(coreFW, sceneWidth, sceneHeight, mMinScreenY);
         generatorBackground = new GeneratorBackground(sceneWidth, sceneHeight);
-        generatorEnemy = new GeneratorEnemy(coreFW.getGraphics(), sceneWidth, sceneHeight, minScreenY, (short) 1, 5);
+        generatorEnemy = new GeneratorEnemy(coreFW, sceneWidth, sceneHeight, mMinScreenY, (short) 1, 5);
+        boomSound = new LoaderAssetSound(coreFW, "boom.mp3");
     }
 
     public void update() {
@@ -51,10 +46,13 @@ public class GameManager {
     private void checkHit() {
         for (int i = 0; i < generatorEnemy.enemyArrayList.size(); i++) {
             if (CollisionDetectFW.collisionDetect(mainPlayer, generatorEnemy.enemyArrayList.get(i))) {
+
                 if (!generatorEnemy.enemyArrayList.get(i).isDead) {
+                    boomSound.getSoundFW().play(1);
+                    generatorEnemy.hitPlayer(i);
                     mainPlayer.hitEnemy();
                 }
-                generatorEnemy.hitPlayer(i);
+
             }
         }
     }

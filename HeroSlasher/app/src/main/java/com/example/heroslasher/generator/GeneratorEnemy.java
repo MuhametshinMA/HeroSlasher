@@ -17,12 +17,12 @@ public class GeneratorEnemy {
     UtilTimerFW timerOnDead;
 
     public static ArrayList<Enemy> enemyArrayList;
-    GraphicsFW graphicsFW;
+    CoreFW coreFW;
 
-    public GeneratorEnemy(GraphicsFW graphicsFW,
+    public GeneratorEnemy(CoreFW coreFW,
                           int sceneWidth, int sceneHeight, int minScreenY,
                           short type, int amountEnemy) {
-        this.graphicsFW = graphicsFW;
+        this.coreFW = coreFW;
         this.maxScreenX = sceneWidth;
         this.maxScreenY = sceneHeight;
         minScreenX = 0;
@@ -43,7 +43,7 @@ public class GeneratorEnemy {
     private void addEnemy() {
         if (enemyArrayList.size() < amountEnemy) {
             for (int i = 0; i < amountEnemy; i++) {
-                enemyArrayList.add(new Enemy(graphicsFW, maxScreenX, maxScreenY, minScreenY, (short) type));
+                enemyArrayList.add(new Enemy(coreFW, maxScreenX, maxScreenY, minScreenY, (short) type));
                 //System.out.println("Enemy added: "+ i + " Enemies: " + enemyArrayList.size());
             }
         }

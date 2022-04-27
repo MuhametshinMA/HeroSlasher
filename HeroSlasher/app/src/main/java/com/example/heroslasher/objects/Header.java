@@ -32,6 +32,7 @@ public class Header {
         graphicsFW.drawText(coreFW.getString(R.string.txt_header_passedDistance) + passedDistance,
                 410, 30, Color.GREEN, 25, null);
     }
+
     public int getHEIGHT_HEADER() {
         return HEIGHT_HEADER;
     }

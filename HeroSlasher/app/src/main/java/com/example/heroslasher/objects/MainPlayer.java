@@ -5,7 +5,7 @@ import android.graphics.Rect;
 import com.example.gear2d.CoreFW;
 import com.example.gear2d.GraphicsFW;
 import com.example.gear2d.ObjectsFW;
-import com.example.gear2d.LoaderAssets;
+import com.example.gear2d.LoaderAssetsAnimation;
 import com.example.gear2d.AnimationFW;
 import com.example.gear2d.utilites.UtilTimerFW;
 import com.example.heroslasher.classes.GameManager;
@@ -18,7 +18,7 @@ public class MainPlayer extends ObjectsFW {
     AnimationFW animationMainPlayer;
 
     CoreFW coreFW;
-    LoaderAssets loaderAssets;
+    LoaderAssetsAnimation loaderAssetsAnimation;
     UtilTimerFW timerOnShieldHit;
     UtilTimerFW timerOnDead;
 
@@ -35,9 +35,10 @@ public class MainPlayer extends ObjectsFW {
     public MainPlayer(CoreFW coreFW, int maxScreenX, int maxScreenY, int minScreenY) {
         this.coreFW = coreFW;
         condition = NO_BOOSTED;
-        loaderAssets = new LoaderAssets(coreFW.getGraphics(),"chichi.png",
+        loaderAssetsAnimation = new LoaderAssetsAnimation(coreFW,"chichi.png",
                 3, 5, condition);
-        animationMainPlayer = new AnimationFW(speed, MAX_SPEED, loaderAssets);
+        //loaderAssetsAnimation.execute();
+        animationMainPlayer = new AnimationFW(speed, MAX_SPEED, loaderAssetsAnimation);
         x = 110;
         y = 100;
         speed = 3;
@@ -46,10 +47,10 @@ public class MainPlayer extends ObjectsFW {
         timerOnDead = new UtilTimerFW();
 
 
-        radius = loaderAssets.sprites.get(0).getHeight()/4;
+        radius = loaderAssetsAnimation.sprites.get(0).getHeight()/4;
 
         this.maxScreenX = maxScreenX;
-        this.maxScreenY = maxScreenY - loaderAssets.sprites.get(0).getHeight();
+        this.maxScreenY = maxScreenY - loaderAssetsAnimation.sprites.get(0).getHeight();
         this.minScreenY = minScreenY;
 
     }
@@ -60,8 +61,8 @@ public class MainPlayer extends ObjectsFW {
         gravity();
         isDead();
         hitBox = new Rect(x, y,
-                loaderAssets.sprites.get(0).getWidth(),
-                loaderAssets.sprites.get(0).getHeight());
+                loaderAssetsAnimation.sprites.get(0).getWidth(),
+                loaderAssetsAnimation.sprites.get(0).getHeight());
     }
 
     private void isDead() {
@@ -96,7 +97,7 @@ public class MainPlayer extends ObjectsFW {
 
     private void setCondition(int condition) {
             this.condition = condition;
-            loaderAssets.loadSprite(coreFW.getGraphics(),3, 5, condition);
+            loaderAssetsAnimation.loadSprite(coreFW.getGraphics(),3, 5, condition);
             animationMainPlayer.setSpeedAnimation(speed);
     }
     public void drawing(GraphicsFW graphicsFW) {

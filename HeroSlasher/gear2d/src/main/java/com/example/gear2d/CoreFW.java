@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
@@ -19,6 +20,7 @@ public class CoreFW extends AppCompatActivity {
     private GraphicsFW graphicsFW;
     private TouchListener touchListener;
 
+    private AudioFW audioFW;
     private Display display;
     private Point sizeDisplay;
     private Bitmap frameBuffer;
@@ -29,6 +31,12 @@ public class CoreFW extends AppCompatActivity {
     private boolean stateOnPause;
     private boolean stateOnResume;
     private SharedPreferences sharedPreferences;
+    private boolean isPressedKeyBack;
+
+    public SharedPreferences getSharedPreferences() {
+        return sharedPreferences;
+    }
+
     private final String SETTINGS = "settings";
 
     @Override
@@ -43,6 +51,7 @@ public class CoreFW extends AppCompatActivity {
         sceneWidth = FRAME_BUFFER_WIDTH/sizeDisplay.x;
         sceneHeight = FRAME_BUFFER_HEIGHT/sizeDisplay.y;
 
+        audioFW = new AudioFW(this);
         loopFW = new LoopFW(this, frameBuffer);
         graphicsFW = new GraphicsFW(getAssets(),frameBuffer);
         touchListener = new TouchListener(loopFW, sceneWidth, sceneHeight);
@@ -51,12 +60,17 @@ public class CoreFW extends AppCompatActivity {
 
         stateOnPause = false;
         stateOnResume = false;
+        isPressedKeyBack = false;
         setContentView(loopFW);
     }
 
     public CoreFW() {
-
     }
+
+    public AudioFW getAudioFW() {
+        return audioFW;
+    }
+
     public void onResume() {
         super.onResume();
         sceneFW.resume();
@@ -93,5 +107,21 @@ public class CoreFW extends AppCompatActivity {
     }
     public SceneFW getStartScene() {
         return sceneFW;
+    }
+
+    public boolean onKeyDown(int keyCode, KeyEvent keyEvent) {
+        if (keyCode == KeyEvent.KEYCODE_BACK){
+            isPressedKeyBack = true;
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isPressedKeyBack() {
+        return isPressedKeyBack;
+    }
+
+    public void setPressedKeyBack(boolean pressedKeyBack) {
+        isPressedKeyBack = pressedKeyBack;
     }
 }

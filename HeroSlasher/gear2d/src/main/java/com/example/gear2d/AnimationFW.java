@@ -2,8 +2,6 @@ package com.example.gear2d;
 
 import android.graphics.Bitmap;
 
-import java.util.ArrayList;
-
 public class AnimationFW {
     double speedAnimation;
     double maxSpeed;
@@ -12,24 +10,25 @@ public class AnimationFW {
     int frames;
 
     Bitmap sprite;
-    LoaderAssets loaderAssets;
+    LoaderAssetsAnimation loaderAssetsAnimation;
 
-    public AnimationFW(double speedAnimation, double maxSpeed, LoaderAssets loaderAssets) {
-        this.loaderAssets = loaderAssets;
+    public AnimationFW(double speedAnimation, double maxSpeed, LoaderAssetsAnimation loaderAssetsAnimation) {
+        this.loaderAssetsAnimation = loaderAssetsAnimation;
+
         this.maxSpeed = maxSpeed;
 
         countFrames = 0;
         delayIndex = 0;
 
         this.speedAnimation = speedAnimation;
-        frames = this.loaderAssets.sprites.size();
-        sprite = this.loaderAssets.sprites.get(0);
+        frames = this.loaderAssetsAnimation.sprites.size();
+        sprite = this.loaderAssetsAnimation.sprites.get(0);
     }
      public void runAnimation() {
         delayIndex++;
         if (delayIndex > maxSpeed - speedAnimation) {
             delayIndex = 0;
-            sprite = this.loaderAssets.sprites.get(countFrames++);
+            sprite = this.loaderAssetsAnimation.sprites.get(countFrames++);
             if (countFrames >= frames) {
                 countFrames = 0;
             }

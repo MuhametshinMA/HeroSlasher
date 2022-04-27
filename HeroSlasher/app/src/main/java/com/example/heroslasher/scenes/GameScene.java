@@ -1,13 +1,17 @@
 package com.example.heroslasher.scenes;
 
 import android.graphics.Color;
+import android.preference.PreferenceActivity;
 
 import com.example.gear2d.CoreFW;
+import com.example.gear2d.LoaderAssetSound;
+import com.example.gear2d.LoaderAssetsMusic;
 import com.example.gear2d.SceneFW;
 import com.example.heroslasher.R;
 import com.example.heroslasher.classes.GameManager;
 import com.example.heroslasher.generator.GeneratorBackground;
 import com.example.heroslasher.objects.Header;
+import com.example.heroslasher.utilites.SettingsGame;
 
 public class GameScene extends SceneFW {
 
@@ -16,12 +20,24 @@ public class GameScene extends SceneFW {
     }
     GameState gameState;
     GameManager gameManager;
+    LoaderAssetsMusic loaderAssetsMusic;
+    LoaderAssetSound gameOverSound;
+
 
     public GameScene(CoreFW coreFW) {
         super(coreFW);
         gameState = GameState.READY;
         gameManager = new GameManager(coreFW, sceneWidth, sceneHeight);
         setName("Game scene");
+        loaderAssetsMusic = new LoaderAssetsMusic(coreFW,
+                "[8-bit NES] Interstellar - No Time For Caution (256  kbps).mp3");
+        SettingsGame.loadSettings(coreFW);
+        if (SettingsGame.sMusicOn) {
+            loaderAssetsMusic.gameMusic.play(true, 1f);
+            System.out.println("inGameScene sMusicOn true");
+        } else {System.out.println("inGameScene sMusicOn false");}
+
+        gameOverSound = new LoaderAssetSound(coreFW, "gameOver.mp3");
     }
 
     @Override
@@ -70,6 +86,12 @@ public class GameScene extends SceneFW {
         gameManager.update();
         if (GameManager.gameOver) {
             gameState = GameState.GAMEOVER;
+            loaderAssetsMusic.gameMusic.stop();
+            gameOverSound.getSoundFW().play(1);
+        }
+        if (coreFW.isPressedKeyBack()) {
+            coreFW.setPressedKeyBack(false);
+            gameState = GameState.PAUSE;
         }
     }
 
@@ -80,10 +102,16 @@ public class GameScene extends SceneFW {
         gameManager.drawing(coreFW,graphicsFW);
     }
     private void updateStatePause() {
+        if (coreFW.getTouchListener().getTouchUp(0, 0, sceneWidth, sceneHeight)) {
+            gameState = GameState.RUNNING;
+        }
     }
     private void drawingStatePause() {
     }
     private void updateStateGameOver() {
+        SettingsGame.addDistance((int)Header.passedDistance);
+        SettingsGame.saveSettings(coreFW);
+        SettingsGame.loadSettings(coreFW);
         int x = (int)coreFW.getTouchListener().x;
         int y = (int)coreFW.getTouchListener().y;
 
@@ -113,16 +141,19 @@ public class GameScene extends SceneFW {
 
     @Override
     public void pause() {
-
+        loaderAssetsMusic.gameMusic.stop();
     }
 
     @Override
     public void resume() {
-
+        if (SettingsGame.sMusicOn) {
+            loaderAssetsMusic.gameMusic.play(true, 1f);
+        }
     }
 
     @Override
     public void dispose() {
+        loaderAssetsMusic.gameMusic.stop();
 
     }
 }
